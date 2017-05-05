@@ -1,0 +1,86 @@
+---
+layout: post
+title: Web开发中常见方向问题(鼠标滚动方向,横竖屏)
+date: 2017-04-09 11:11:11.000000000 +09:00
+categories: ECharts&&D3 Github
+tags: 鼠标滚动的方向,横竖屏&emsp;Github
+---
+
+#一.原生JS实现页面滚动方向检测
+&emsp;&emsp;判断页面滚动方向是一个常见的需求;关键点可以利用pageXOffset,pageYOffset做下小文章.
+&emsp;&emsp;pageXOffset 设置或返回当前页面相对于窗口显示区左上角的 X 位置。pageYOffset 设置或返回当前页面相对于窗口显示区左上角的 Y 位置。语法:通过
+window.pageXOffset,window.pageYOffset就可以拿到;所有主流浏览器都支持pageXOffset 和 pageYOffset 属性;
+&emsp;&emsp;检测页面滚动方向的原理其实很简单,通过pageXOffset,pageYOffset属性获取当前值和之前的值进行对比即可,直接上代码.
+
+```
+	<script>
+	  window.onscroll = function(e) {
+	    scrollFunc();
+	  }
+	
+	  var scrollAction = {x: 'undefined', y: 'undefined'}, scrollDirection;
+	
+	  function scrollFunc() {
+	    if (typeof scrollAction.x == 'undefined') {
+	      scrollAction.x = window.pageXOffset;
+	      scrollAction.y = window.pageYOffset;
+	    }
+	    var diffX = scrollAction.x - window.pageXOffset;
+	    var diffY = scrollAction.y - window.pageYOffset;
+	    if (diffX < 0) {
+	    // Scroll right
+	      scrollDirection = 'right';
+	      console.log('right');
+	    } else if (diffX > 0) {
+	    // Scroll left
+	      scrollDirection = 'left';
+	      console.log('left');
+	    } else if (diffY < 0) {
+	    // Scroll down
+	      scrollDirection = 'down';
+	      console.log('down');
+	    } else if (diffY > 0) {
+	    // Scroll up
+	      scrollDirection = 'up';
+	      console.log('up');
+	    } else {
+	    // First scroll event
+	    }
+	    scrollAction.x = window.pageXOffset;
+	    scrollAction.y = window.pageYOffset;
+	  }
+	</script>
+```
+
+#二.Web开发移动端横竖屏问题
+&emsp;&emsp;在移动端,经常会遇到横竖屏问题,通常的处理方法有两种,CSS和js都能够实现
+##1.CSS媒体查询判断横竖屏
+```
+@media screen and (orientation:portrait) {
+  //竖屏
+}
+@media screen and (orientation:landscape) {
+  //横屏
+}
+```
+&emsp;&emsp;测试的时候可以使用Google Chrome控制台调试查看结果,如图:
+	![image](/assets/2017-04-08-images/mobile.png)
+##2.JS判断横竖屏
+```
+//判断手机横竖屏状态：
+window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
+        if (window.orientation === 180 || window.orientation === 0) { 
+            alert('竖屏状态！');
+        } 
+        if (window.orientation === 90 || window.orientation === -90 ){ 
+            alert('横屏状态！');
+        }  
+    }, false); 
+//移动端的浏览器一般都支持window.orientation这个参数，通过这个参数可以判断出手机是处在横屏还是竖屏状态。
+```
+&emsp;&emsp;这儿貌似需要通过真机测试,效果才能出来,只好拿出我低调的iPhone玩了下,有图为证:
+![image](/assets/2017-04-08-images/landscape.jpeg)
+![image](/assets/2017-04-08-images/portrait.jpeg)
+
+
+

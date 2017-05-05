@@ -1,0 +1,22 @@
+---
+layout: post
+title: Node.js+Socket.IO构建WebSocket即时通讯
+date: 2017-04-09 11:11:11.000000000 +09:00
+categories: ECharts&&D3 Github
+tags: ECharts&&D3&emsp;Github
+---
+
+
+
+
+
+
+
+
+
+
+参考文章:
+[文章](http://plhwin.github.io/2014/05/28/nodejs-socketio/)
+
+[表情,图片处理](http://www.cnblogs.com/Wayou/p/hichat_built_with_nodejs_socket.html)
+
