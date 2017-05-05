@@ -1,10 +1,11 @@
 ---
 layout: post
 title: Web开发中常见方向问题(鼠标滚动方向,横竖屏)
-date: 2017-04-09 11:11:11.000000000 +09:00
+date: 2017-05-04 11:11:11.000000000 +09:00
 categories: ECharts&&D3 Github
 tags: 鼠标滚动的方向,横竖屏&emsp;Github
 ---
+
 
 #一.原生JS实现页面滚动方向检测
 &emsp;&emsp;判断页面滚动方向是一个常见的需求;关键点可以利用pageXOffset,pageYOffset做下小文章.
@@ -51,6 +52,7 @@ window.pageXOffset,window.pageYOffset就可以拿到;所有主流浏览器都支
 	  }
 	</script>
 ```
+
 
 #二.Web开发移动端横竖屏问题
 &emsp;&emsp;在移动端,经常会遇到横竖屏问题,通常的处理方法有两种,CSS和js都能够实现
