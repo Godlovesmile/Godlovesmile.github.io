@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Web开发中常见方向问题(鼠标滚动方向,横竖屏)
+title: JavaScipt刷刷常见算法
 date: 2017-05-06 11:11:11.000000000 +09:00
 categories: ECharts&&D3 Github
-tags: 鼠标滚动的方向,横竖屏&emsp;Github
+tags: 算法;Github
 ---
 
 #一.冒泡算法
