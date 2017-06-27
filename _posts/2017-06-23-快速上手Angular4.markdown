@@ -79,6 +79,10 @@ export const ROUTES: Routes = [
   + ng -v
   + ng new my-app
   + ng serve --open (使用--open会自动打开浏览器)
+* 项目结构
+  ![image](/assets/2017-06-23-images/structure.png)
+ 
+
  
 # 四.Angular基础知识点
  * 1.绑定属性值 {{}}
@@ -130,46 +134,46 @@ export const ROUTES: Routes = [
      + (6) 把请求的结果，赋值给对应的属性
     
    
- ```
- //3.4.5点的整体代码
- import { Component } from '@angular/core';
-	//强调 : 使用http模块必须引入
-	import { Http } from '@angular/http';
-	import 'rxjs/add/operator/map';
-	//自定义组件
-	@Component({
-	  selector : 'user',
-	  template : `<h2>我的名字是:{{name}},喜欢{{message.hobby}}</h2>
-	              <button (click)="toggleSkills()">技能显示/隐藏</button>
-	              <ul *ngIf='showSkills'><li *ngFor="let skill of skills">{{skill.content}}</li></ul>`
-	})
-	export class UserComponent {
-	  name = '';
-	  message : {};
-	  showSkills : Boolean;
-	  skills : any;
-	  //事件
-	  toggleSkills() {
-	    this.showSkills = !this.showSkills;
-	  };
-	  //使用构造函数初始化数据
-	  constructor(http : Http) {
-	    this.name = '闫理智';
-	    this.message = {
-	      sex : '男',
-	      hobby : '篮球'
-	    };
-	    this.showSkills = true;
-	    //this.skills = ['吃饭','睡觉','打豆豆'];
-	    http.get(`https://bird.ioliu.cn/joke/rand?type=text`)
-	        .map(res => res.json())
-	        .subscribe(data => {
-	          if(data) console.log(data)
-	          this.skills = data.data;
-	        })
-	  }
-	}
- ```
+	 ```
+	 //3.4.5点的整体代码
+	 import { Component } from '@angular/core';
+		//强调 : 使用http模块必须引入
+		import { Http } from '@angular/http';
+		import 'rxjs/add/operator/map';
+		//自定义组件
+		@Component({
+		  selector : 'user',
+		  template : `<h2>我的名字是:{{name}},喜欢{{message.hobby}}</h2>
+		              <button (click)="toggleSkills()">技能显示/隐藏</button>
+		              <ul *ngIf='showSkills'><li *ngFor="let skill of skills">{{skill.content}}</li></ul>`
+		})
+		export class UserComponent {
+		  name = '';
+		  message : {};
+		  showSkills : Boolean;
+		  skills : any;
+		  //事件
+		  toggleSkills() {
+		    this.showSkills = !this.showSkills;
+		  };
+		  //使用构造函数初始化数据
+		  constructor(http : Http) {
+		    this.name = '闫理智';
+		    this.message = {
+		      sex : '男',
+		      hobby : '篮球'
+		    };
+		    this.showSkills = true;
+		    //this.skills = ['吃饭','睡觉','打豆豆'];
+		    http.get(`https://bird.ioliu.cn/joke/rand?type=text`)
+		        .map(res => res.json())
+		        .subscribe(data => {
+		          if(data) console.log(data)
+		          this.skills = data.data;
+		        })
+		  }
+		}
+	 ```
 
   
   
