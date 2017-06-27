@@ -1,0 +1,178 @@
+---
+layout: post
+title: 快速上手Angular4
+date: 2017-05-06 11:11:11.000000000 +09:00
+categories: Angular4 Github
+tags: Angular4;Github
+---
+
+**关键点**
+* 1.Angular介绍
+* 2.Angular核心特性
+* 3.Angular-CLI快速搭建项目
+* 4.Angualr基础知识点
+
+希望通过上面的描述,可以快速搭建项目,写点东西,了解整体流程(重要)
+
+# 一.Angular介绍
+* 在那遥远的时代,AngualrJS-1.x版本的时代,是这样诞生的;AngularJS[1]  诞生于2009年，由Misko Hevery 等人创建，后为Google所收购。是一款优秀的前端JS框架，已经被用于Google的多款产品当中。AngularJS有着诸多特性，最为核心的是：MVC、模块化、自动化双向数据绑定、语义化标签、依赖注入等等。
+* 后来Angualr出现了2.x版本,网上已经开始吐槽如此断臂式的改变;黑的时候,已达到AngularJS1和Angular2是前端两个不同框架,心疼.
+* 如今,最新版本是Angualr4.x.x版本,我们就从这儿入手吧,从[官方网站](https://angular.cn/docs/ts/latest/quickstart.html)开始吧,Angular v4.0 发布啦！更小，更快，改动少,官网是这样吹得.
+* 从Angular2.x.x开始,使用的就是[TypeScript](http://www.typescriptlang.org/),TypeScript是Microsoft公司注册商标。TypeScript具有类型系统，且是JavaScript的超集。 它可以编译成普通的JavaScript代码。 TypeScript支持任意浏览器，任意环境，任意系统并且是开源的。
+
+
+
+# 二.Angular核心特性
+![image](/assets/2017-06-23-images/core-concept.png)
+
+1.组件化(Component最核心的概念)
+![image](/assets/2017-06-23-images/tree.png)
+```
+import { Component } from '@angular/core';
+@Component({
+  selector : 'login',
+  template : `<h1>我是登录页面</h1>`
+})
+export class LoginComponent {}
+```
+
+2.模块化(NgModule)
+* 什么是模块化
+	前端模块化其实就是将一个完整的单一的功能整合起来形成单独的一个功能组件，当需要用的的时候只需要加载这个组件，然后便可以通过该组件唯一的名称去使用其中的内容。
+	![image](/assets/2017-06-23-images/module.png)
+
+3.路由(Router)
+* 操作路由步骤
+  + 引入文件
+  ```
+  import { Routes,RouterModule } from '@angular/router';
+  ```
+  + NgModule是一个装饰器函数中,在imports中进行模块引用
+  ```
+  imports: [
+  /*
+  RouterModule.forRoot() 方法用于在主模块中定义主要的路由信息，
+  通过调用该方法使得我们的主模块可以访问路由模块中定义的所有指令
+  */	BrowserModule,HttpModule,RouterModule.forRoot(ROUTES)
+  ],
+  ```
+  + 配置路由
+  ```
+  //路由配置
+export const ROUTES: Routes = [
+  { path: 'home',
+    component: HomeComponent,
+    children:[
+      {path:'login',component:LoginComponent},
+      {path:'register',component:RegisterComponent},
+    ]
+  },
+  { path: 'user', component: UserComponent }
+];
+ ```
+
+# 三.Angular-CLI快速搭建项目
+* 概念
+  + Angular CLI是一个命令行界面工具，可以创建项目，添加文件，并执行各种正在进行的开发任务，如测试，捆绑和部署。
+* 操作步骤
+  + npm install -g @angular/cli
+  + ng -v
+  + ng new my-app
+  + ng serve --open (使用--open会自动打开浏览器)
+ 
+# 四.Angular基础知识点
+ * 1.绑定属性值 {{}}
+   + 在 Angular 中，我们可以使用 {{}} 插值语法实现数据绑定。
+   ```
+   import { Component } from '@angular/core';
+	@Component({
+	  selector: 'my-app',
+	  template: `
+	    <h2>我是{{name}}</h2>
+	    <p>我来自<strong>{{address.province}}</strong>省,
+	      <strong>{{address.city}}</strong>市
+	    </p>
+	  `,
+	})
+	export class AppComponent {
+	  name = 'Semlinker';
+	  address = {
+	    province: '安徽',
+	    city: '合肥'
+	  }
+	}
+```
+
+ * 2.自定义组件
+   + 在 Angular 中，可以通过 Component 装饰器和自定义组件类来创建自定义组件。
+   ```
+   @Component({
+	  selector : 'register',
+	  template : `<h1>我是注册页面</h1>`
+	})
+	export class RegisterComponent {
+	}
+```
+
+ * 3.常用指令简介(最常用的指令是ngIf,ngFor)
+   + ngIf指令 : 动态控制模板内容的显示与隐藏。
+   + ngFor 指令 : 该指令用于基于可迭代对象中的每一项创建相应的模板
+ * 4.事件绑定
+   + 在 Angular 中，我们可以通过 (eventName) 的语法，实现事件绑定。
+ * 5.Http模块
+   + 使用Http服务进行数据请求
+   + 使用Http服务步骤
+     + (1) 从 @angular/http 模块中导入 Http 类
+     + (2) 导入 RxJS 中的 map 操作符
+     + (3) 使用 DI 方式注入 http 服务
+     + (4) 调用 http 服务的 get() 方法，设置请求地址并发送 HTTP 请求
+     + (5) 调用 Response 对象的 json() 方法，把响应体转成 JSON 对象
+     + (6) 把请求的结果，赋值给对应的属性
+    
+   
+ ```
+ //3.4.5点的整体代码
+ import { Component } from '@angular/core';
+	//强调 : 使用http模块必须引入
+	import { Http } from '@angular/http';
+	import 'rxjs/add/operator/map';
+	//自定义组件
+	@Component({
+	  selector : 'user',
+	  template : `<h2>我的名字是:{{name}},喜欢{{message.hobby}}</h2>
+	              <button (click)="toggleSkills()">技能显示/隐藏</button>
+	              <ul *ngIf='showSkills'><li *ngFor="let skill of skills">{{skill.content}}</li></ul>`
+	})
+	export class UserComponent {
+	  name = '';
+	  message : {};
+	  showSkills : Boolean;
+	  skills : any;
+	  //事件
+	  toggleSkills() {
+	    this.showSkills = !this.showSkills;
+	  };
+	  //使用构造函数初始化数据
+	  constructor(http : Http) {
+	    this.name = '闫理智';
+	    this.message = {
+	      sex : '男',
+	      hobby : '篮球'
+	    };
+	    this.showSkills = true;
+	    //this.skills = ['吃饭','睡觉','打豆豆'];
+	    http.get(`https://bird.ioliu.cn/joke/rand?type=text`)
+	        .map(res => res.json())
+	        .subscribe(data => {
+	          if(data) console.log(data)
+	          this.skills = data.data;
+	        })
+	  }
+	}
+ ```
+
+  
+  
+
+
+
