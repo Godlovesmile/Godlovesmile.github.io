@@ -1,0 +1,48 @@
+---
+layout: post
+title: Vue中v-for中动态字符串拼接
+date: 2017-05-06 11:11:11.000000000 +09:00
+categories: ECharts&&D3 Github
+tags: vue;Github;字符串拼接
+---
+
+&emsp;&emsp;小问题,小问题,小问题,不过我要搞事情,开发项目过程遇到Vue中字符串拼接问题,网上搜了挺乱,我来说下我解决总结的几点.
+
+**关键点**
+
+* 1.img中的src的字符串动态拼接
+* 2.style中的background属性赋值
+
+
+### 一.img中的src的字符串动态拼接
+* 1.问题是这样子的,瞧瞧
+  基本网络链接 : http://openweathermap.org/img/w/02n.png ; 但是了字符'02n'是动态的,切换它可以获取不同的天气图片,如果这样的链接在vue的v-for中该如何拼接字符串了,下解:
+* 2.解决这个问题
+  + 方法一(你可以这样写)
+  ```
+   <ul>
+      <li v-for='item in weatherArr'>
+			<img :src="'http://openweathermap.org/img/w/'+item.weather[0].icon+'.png'">
+		</li>
+    </ul>
+  ```
+  + 方法二(你还可以这样写:es6的语法)
+  ```
+	  <ul>
+	      <li v-for='item in weatherArr'>
+		      <img :src=`http://openweathermap.org/img/w/${item.weather[0].icon}.png`>
+			</li>
+    </ul>
+  ```
+
+### 二.style中通过background设置背景图片
+* 写法和上面类似,就是拼接字符串,直接上代码吧
+```
+    <ul>
+        <li class="imgStyle" v-for='item in items' :style="{background:'url('+item.imgURL+')'}"></li>
+     </ul>
+```
+
+  [完整代码点这儿](https://github.com/Godlovesmile/CodeTransferStation/tree/master/Vue%E4%B8%AD%E9%81%8D%E5%8E%86%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5)
+
+
