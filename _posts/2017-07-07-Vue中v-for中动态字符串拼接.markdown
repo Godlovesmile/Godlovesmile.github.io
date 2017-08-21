@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Vue中v-for中动态字符串拼接
-date: 2017-05-06 11:11:11.000000000 +09:00
+date: 2017-07-07 11:11:11.000000000 +09:00
 categories: ECharts&&D3 Github
 tags: vue;Github;字符串拼接
 ---
@@ -26,6 +26,7 @@ tags: vue;Github;字符串拼接
 		</li>
     </ul>
   ```
+  
   + 方法二(你还可以这样写:es6的语法)
   ```
 	  <ul>
