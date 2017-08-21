@@ -26,7 +26,7 @@ a:hover {
     text-decoration: underline;
 }
 body {
-    background: url(https://github.com/Godlovesmile/Godlovesmile.github.io/blob/master/ai_li/ylz.jpg) no-repeat fixed 50% 0;
+    background: url('https://github.com/Godlovesmile/Godlovesmile.github.io/blob/master/ai_li/ylz.jpg') no-repeat fixed 50% 0;
     font: 12px/1.5 "微软雅黑", "tahoma", Verdana, Geneva, sans-serif;
     color: #666;
     position: relative;
