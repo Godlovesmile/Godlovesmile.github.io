@@ -1,0 +1,134 @@
+---
+layout: post
+title: webpack
+date: 2017-12-05 11:11:11.000000000 +09:00
+categories: 浏览器 兼容
+tags: web webpack
+---
+
+**关键点**
+
+* webpack配置详解
+  + entry
+  + output
+  
+## 一. entry(入口配置)
+项目很多文件之间的关系是需要我们牵线搭桥, 然后让webpack去处理; 一般项目会存在一个或者多个'主文件', 其他文件(模块)直接或者间接关联到主文件. 那么entry就是配置配置主文件信息.
+
+entry赋值语法:
+
++ 字符串 | 数组
+```
+const config = {
+	entry: '/path/to/my/entry/file.js'
+};
+module.exports = config;
+简写方式:
+const config = {
+  entry: {
+    main: './path/to/my/entry/file.js'
+  }
+};
+```
++ 对象
+常见场景: 配置多页应用, 或者抽出公共模块代码, 需要对象语法形式.
+```
+	entry:{
+	    main:'./src/index.js',
+	    second:'./src/index2.js',
+	    vendor: ['react', 'react-dom']
+	}
+```
+
+## 二.输出配置(output) 
+output 配置项作用于打包文件的输出阶段.
+
+* 基本配置, filename和path
+	+ filename用于输出文件的名
+	+ path设置输出路径
+```
+output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+}
+```
+* chunkfile
+在程序刚进入时,可能不需要某个主文件的所有代码,这时我们使用一定方法对主文件代码进行分割,如此,可以按需加载;这种不具备独立依赖的文件称为chunkfile
+```
+output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+    chunkFilename: 'js/[name].chunk.js'
+}
+```
+注释: [name]为webpack中占位符,表示打包后文件的名称,可以在entry or 代码中设置(webpack还有其他占位符)
+
+
+## 三.modules
+开发者在模块化编程中,将程序分解成离散功能块,称为模块.
+对于webpack而言,所有的文件都是模块.
+
+* webpack 模块
+对比 Node.js 模块，webpack 模块能够以各种方式表达它们的依赖关系，几个例子如下：
+	+ ES2015 import 语句
+	+ CommonJS require() 语句
+	+ AMD define 和 require 语句
+	+ css/sass/less 文件中的 @import 语句。
+	+ 样式(url(...))或 HTML 文件(`<img src=...>`)中的图片链接(image url)
+
+* loader
+webpack只能处理 js 文件, 对于一些js新语法,或者其他类型的模块,应该如何处理,这时需要webpack又一重要部分loader.
+webpack 中，loader 的配置主要在module.rules 中进行
+```
+module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ],
+      },      
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+          }
+          // other vue-loader options go here
+        }
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]?[hash]'
+        }
+      }
+    ]
+  }
+```
+[常见loder](https://webpack.js.org/loaders/)
+
+* plugins 的配置
+一切loader 不能做的处理都可由plugins 来做
+
+[待续持续更新吧]
+
+
+
+
+
+
+
+
+
+
+
+
+

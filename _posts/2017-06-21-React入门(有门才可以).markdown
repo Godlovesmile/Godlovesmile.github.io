@@ -1,0 +1,123 @@
+---
+layout: post
+title: React入门
+date: 2017-06-21 11:11:11.000000000 +09:00
+categories: React Github
+tags: React;Github
+---
+
+```
+	前提声明:此React系列,侧重点是如何快速上手写React代码,对于一些基础的概念不会详细阐述,快速上手写代码,上手写代码,写代码(重要事情说三遍)
+```
+
+#React简介
+这一款由Facebook出品的,用于构建用户界面的JavaScript框架
+
+#React核心编程思想
+##一.小历程
+###&emsp;&emsp;1.前端开发,需要手动管理,操作DOM和监控控件状态变化,过程繁琐,如此在大规模应用情景下维护困难.
+###&emsp;&emsp;2.解决频繁操作DOM,那么,我这样如何-每次状态有更新的情况下重新渲染整个UI,便可省去一次一次手动改变DOM操作.
+###&emsp;&emsp;3.新的问题来啦,每次都需要重新渲染整个UI效率低下,所以这个时候厉害的角色上场了,Virtual DOM!
+
+------------------------------------------------
+  厉害了,Virtual DOM 是什么鬼,必须得有小三插脚解释下,场面才不会那么混乱.
+  
+   >–––––––––––––––––小三解释虚拟DOM:–––––––––––––––
+*1.概念
+   &emsp;&emsp;虚拟 DOM 是在 DOM 的基础上建立了一个抽象层，我们对数据和状态所做的任何改动，都会被自动且高效的同步到虚拟 DOM，最后再批量同步到 DOM 中。React 会在内存中维护一个虚拟 DOM 树，当我们对这个树进行读或写的时候，实际上是对虚拟 DOM 进行的.
+<br/>
+*2.苟且之事的过程是是这样的
+  &emsp;&emsp;1>.数据更新;
+  &emsp;&emsp;2>.React 会自动更新新虚拟DOM;
+  &emsp;&emsp;3>.通过对比新虚拟DOM和旧虚拟DOM找出不同点(different),得到一个Patch; 
+  &emsp;&emsp;4>.将这个Patch放到一个队列中;
+  &emsp;&emsp;5>.最终'批量'更新Patch到DOM中;
+这种事情怎么可能没图了,太不正常了(捉奸捉脏)
+!![01_Virtual DOM.png](http://upload-images.jianshu.io/upload_images/1897003-79aabd9f43d3f57e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+   
+------------------------------------------------
+###&emsp;&emsp;4.把所有的HTML组件都抽象化JS中,不在需要HTML模板,直接在JS中写HTML;如何实现在如此霸道直接的操作,JSX来啦;Facebook在PHP已经使用XHP很久了，把那套方法搬到JavaScript上就成了JSX。
+```
+JSX小语法小演示:
+    <script type="text/babel">
+        let title=(<div><strong>Hello JSX</strong></div>);
+        ReactDOM.render(
+                title,
+                document.querySelector('#app')
+        )
+    </script>
+```
+###&emsp;&emsp;5.UI的状态和获取的数据需要分开处理，使用state和props的概念来区分它们。
+
+##二.组件化
+&emsp;&emsp;除了不需要对DOM进行直接操作,提高性能;React中还有一个重要的思想是组件化,即UI中的每个组件都是独立封装的,同时,由于这些组件独立于HTML,使他们不仅可以运行在浏览器里,还可以作为原生应用的组件来运行.(组件类比积木,每块小的积木都是独立的一部分,能够实现特定效果)
+
+#React实操
+其实我就是想写个'Hello World';
+##一.前提准备
+1.需要引入三个基本依赖文件(文件如何下载我就不废话了,npm,bower等都行,你开心就好~)
+```
+    /*1>.react.js文件是创建React元素和组件的核心文件，
+      2>.react-dom.js文件用来把React组件渲染为DOM，
+    此文件依赖于react.js文件，需在其后被引入。
+      3>.Babel的主要用途是转换新标准的JavaScript代码为浏览器现今兼容的代码，同时它也提供JSX语句的转换；*/
+    <script src="lib/react.js"></script>
+    <script src="lib/react-dom.js"></script>
+    <script src="lib/babel.min.js"></script>
+```
+
+##二.直接撸Hello World
+```
+<body>
+    <div id="app"></div>
+    
+    <script type="text/babel">
+        //ReactDOM.render 是 React 的最基本方法，用于将模板转为 HTML 语言，并插入指定的 DOM 节点。
+        ReactDOM.render(
+                <h3>welcome</h3>,
+                //document.querySelector()获取指定节点(方法很多)
+                document.querySelector('#app')
+        )
+    </script>
+</body>
+```
+
+##三.组件化Hello World
+&emsp;&emsp;这儿有个重要问题必须讨论,擦擦,为什么你这儿React组件要酱样子定义,貌似和我的不一样,要开车啦;
+&emsp;&emsp;React推出后，出于不同的原因先后出现三种定义react组件的方式，殊途同归；具体的三种方式：
+1.函数式定义的无状态组件
+2.es5原生方式React.createClass定义的组件
+3.es6形式的extends React.Component定义的组件
+推荐阅读,不重复造轮子了,总结的挺好:[React创建组件的三种方式及其区别](http://www.cnblogs.com/wonyun/p/5930333.html)
+
+```
+//此处直接上现在推荐的方法啦~
+<body>
+    <div id="app"></div>
+    
+    <script type="text/babel">
+        class HelloWorld extends React.Component {
+            constructor() {
+                super();
+                this.state={
+                    msg:''
+                };
+            }
+            render(){
+                return (<div>
+                    <input type="text" defaultValue="abc" />
+                </div>)
+            }
+        }
+
+        ReactDOM.render(
+                <HelloWorld />,
+                document.querySelector('#app')
+        )
+    </script>
+</body>
+```
+
+
+

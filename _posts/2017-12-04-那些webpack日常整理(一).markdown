@@ -1,0 +1,130 @@
+---
+layout: post
+title: webpack
+date: 2017-12-04 11:11:11.000000000 +09:00
+categories: 构建工具
+tags: webpack
+---
+
+这儿有个美丽的故事,我也有酒,愿意来共饮听故事嘛.
+
+1.地点: FEDAY前端大会
+2.人物: 很多呀,大佬,大佬...(跟大佬握手之后,紧张的我几天不敢洗手)
+3.目的: 我爱学习呀
+4.过程: 听说有webpack的核心开发者,讲webpack打包机制及调试优化(很期待)
+5.结果: 听完之后,我表示俄语没听懂,但是,但是很重要,尼玛,他们都说是英语[捂脸],我信了;事实证明,俄式英语,确实很俄式~
+
+[我给链接,你来听,听懂算你赢](https://mp.weixin.qq.com/s/23A6_2RAFWnVDtmtDm6YnA)
+
+想写点webpack文字,就当作笔记了,不断添加,不断更新~
+
+–––––––––––––––––––––––––––––––––––––––––––––––––––
+
+**关键点**
+
+* 1.了解webpack
+* 2.webapck相关配置
+* 3.webpack安装
+
+### 一. webpack
+#### 1.核心概念
+[图片上传失败...(image-d00cc3-1512398945999)]
+千言万语,都在图里
+
+webpack 是一个现代 JavaScript 应用程序的模块打包器(module bundler),当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成bundle- ,通常只有一个，由浏览器加载。
+
+#### 2.webpack何为
+
+前端疯狂发展,新东西如雨后春笋,学习前端已是从入门到放弃的地步了[捂脸].很多好玩的工具,层出不穷
+1.babel翻译下一代(不断更新)js,转化jsx语法
+2.原生CSS写起来不爽了,弄出了Sass,Less,Stylus,PostCSS,自然这些浏览器看不懂,又是各种工具翻译成原生CSS
+3.前端模块化CDM,AMD,CommonJS等方案
+...
+
+项目越来越复杂,代码体积越来越胖,顺理成章,需要各种优化,压缩等,前端工程化痛点,急需有光,强大的光.webpack来了
+
+前端工程化webpack提供了一套相对完整的解决的方案,希望越来越好,因为希望越来爽~爽很重要;其实webpack本质是前端模块化打包解决方案,同时好像又是一个可以融合运用各种前端技术的大容器,黑盒子一般实现了很多功能.
+
+让我们向黑盒子走进一步.
+
+
+### 二.webapck相关配置
+#### 1.理解核心配置
+
+*前提:webpack核心配置放置在webpack.config.js文件中*
+
+* 入口(entry),输出(output),loader,插件(plugins)
+  + 入口(entry)<br/>
+    入口起点告诉 webpack 从哪里开始
+  + 出口(entry)<br/>
+	  webpack 的 output 属性描述了如何处理归拢在一起的代码
+  + Loader	  
+    webpack 把每个文件(.html, .css, .js, .scss, .jpg, etc.) 都作为模块处理。然而 webpack自身只理解JavaScript。所起这个时候需要其他某种东西来处理除js以外的文件,则loader就上场了.webpack loader 在文件被添加到依赖图中时，其转换为模块。
+	+ 插件(plugins)<br/>
+	  插件目的在于解决 loader 无法实现的其他事。由于 loader 仅在每个文件的基础上执行转换，而 插件(plugins) 更常用于（但不限于）在打包模块的 “compilation” 和 “chunk” 生命周期执行操作和自定义功能
+	  
+基本结构结构如此(还没做什么事情)
+```
+	const webpack = require('webpack');
+	const path = require('path');
+	const config = {
+	  entry: 'main.js',
+	  output: {
+	    path: path.resolve(__dirname, 'dist'),
+	    filename: 'bundle.js'
+	  },
+	  module: {
+	    rules: [
+	      {}
+	    ]
+	  },
+	  plugins: [
+	  ]
+	};
+	module.exports = config;
+```	  
+
+### 三.webapck安装
+对于webpack的安装可以分为两种情况:全局安装和局部安装
+#### 1.全局安装
+用npm安装webpack:  npm install -g webpack
+测试是否成功: webpack -v
+
+––––––––––––––––––––––––––––––––––––––––––
+
+安转成功之后,就可以利用上面的简单基本的webpack.config.js进行测试
+切换到项目目录下,运行: webpack main.js
+会神奇的发现,项目目录下生成dist文件夹+bundle.js
+
+#### 2.局部安装
+
+如果没有全局安装webpack,是不能直接使用webpack命令的;
+
+局部安装: npm install webpack --save-dev
+
+那么问题来了,既然不能在全局中运行webpack命令,在局部中应该怎么处理了,这时候,需要在package.json文件配置,通过npm命令来运行,如何配置
+```
+  "scripts": {
+    // 需要运行的命令通过npm间接运行
+    "version": "webpack -v"
+  }
+  通过npm run version
+```
+
+
+
+>参考阅读
+>[webpack官网](https://webpack.js.org)
+
+
+
+
+
+
+
+
+
+
+
+
+
