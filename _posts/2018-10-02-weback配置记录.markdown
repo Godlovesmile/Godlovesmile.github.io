@@ -1,0 +1,140 @@
+---
+layout: post
+title: webpack配置记录
+date: 2018-06-25 11:11:11.000000000 +09:00
+categories: webpack配置记录
+tags: webpack配置记录
+---
+
+**关键点**
+### 一. webpack抽离压缩css文件
+#### 1. 在生产环境中配置css抽离压缩加载
+***备注: 开发环境进行正常loader处理即可***
+1>. 抽离文件: 
+	* 安装分离css插件 mini-css-extract-plugin
+	* 在plugins中 新增 抽离css文件的 配置
+
+2>. 压缩css文件:
+	* 安装压缩css插件 terser-webpack-plugin、optimize-css-assets-webpack-plugin
+	* 在optimization中 新增 压缩css 的配置
+
+3>. css加载：
+	* 在loader中 配置以插件的形式加载
+
+```
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TerserJSPlugin = require('terser-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+module.exports = smart(webpackCommonConf, {
+  mode: 'production',
+  module: {
+    rules: [
+      // 抽离 css
+      {
+        test: /\.css$/,
+        loader: [
+          MiniCssExtractPlugin.loader, // 注意，这里不再用 style-loader
+          'css-loader',
+          'postcss-loader'
+        ]
+      },
+      // 抽离 less --> css
+      {
+        test: /\.less$/,
+        loader: [
+          MiniCssExtractPlugin.loader, // 注意，这里不再用 style-loader
+          'css-loader',
+          'less-loader',
+          'postcss-loader'
+        ]
+      }
+    ]
+  },
+  plugins: [
+    // 抽离 css 文件
+    new MiniCssExtractPlugin({
+      filename: 'css/main.[contentHash:8].css'
+    })
+  ],
+  optimization: {
+    // 压缩 css
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  }
+})
+```
+
+### 二. webpack配置多入口
+### 三. webpack抽离公共代码
+#### 概念解释
+1. webpack中的三个概念module、chunk和bundle
+	* module：是js的模块化 webpack 支持 commonJS、ES6 等模块化规范，简单来说就是通过import语句引入的代码.
+	* chunk: chunk 是 webpack 根据功能拆分出来的，chunk包含着module，可能是一对多也可能是一对一, 包含三种情况：		
+		+ 项目入口 (entry)
+		+ 通过import()动态引入的代码
+		+ 通过splitChunks拆分出来的代码
+	* bundle: 是 webpack 打包之后的各个文件，一般就是和 chunk 是一对一的关系，bundle 就是对chunk进行编译压缩打包等处理之后的产出.
+
+#### 操作理由
+* 多入口打包时引入公共部分，公共部分会进行重复打包，打包效率降低，打包文件体积变大;
+* 第三方模块不会改变，但页面发生任何变动，第三方模块都需要重新打包，通过抽离第三方模块，页面变动时命中缓存，只打包开发部分代码，提升打包性能。
+
+#### 具体操作
+1. 将第三方模块、公共模块分别打包，分别产出对应的chunk，以便按需引用；
+在 [webpack.prod.js] 进行如下配置操作:
+
+```optimization: {
+  // 分割代码块
+  splitChunks: {
+    // 1. async(默认) 异步 chunk，只对异步导入的文件处理; 2. initial 入口 chunk，对于异步导入的文件不处理; 3. all 全部 chunk;
+    chunks: 'all',
+    // 缓存分组
+    cacheGroups: {
+      // 第三方模块
+      vendor: {
+        name: 'vendor', // chunk 名称
+        priority: 1, // 权限更高，优先抽离，重要！！！
+        test: /node_modules/, // 模块的路径
+        minSize: 0, // 大小限制
+        minChunks: 1 // 最少复用过几次，只要命中一次，就把他作为单独的模块
+      },
+      // 公共的模块
+      common: {
+        name: 'common', // chunk 名称
+        priority: 0, // 优先级
+        minSize: 0, // 公共模块的大小限制
+        minChunks: 2 // 公共模块最少复用过几次，引用两次及以上，把公共模块拆分
+      }
+    }
+  }
+}
+```
+
+2. 按需配置入口文件 chunk 
+
+* HtmlWebpackPlugin插件用于生成html文件
+* 在 [webpack.common.js] 中配置
+
+```plugins: [
+  // 多入口 - 生成 index.html
+  new HtmlWebpackPlugin({
+    template: path.join(srcPath, 'index.html'),
+    filename: 'index.html',
+    // chunks 表示该页面要引用哪些 chunk （即上面的 index 和 other），默认全部引用
+    chunks: ['index', 'vendor', 'common'] // 要考虑代码分割
+  }),
+  // 多入口 - 生成 other.html
+  new HtmlWebpackPlugin({
+    template: path.join(srcPath, 'other.html'),
+    filename: 'other.html',
+    chunks: ['other', 'common'] // 考虑代码分割
+  })
+]
+```
+
+
+
+
+
+
+
+
