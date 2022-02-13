@@ -1,0 +1,14 @@
+---
+layout: post
+title: babel的探索
+date: 2019-04-18 11:11:11.000000000 +09:00
+categories: babel的探索
+tags: babel的探索
+---
+
+**关键点**
+### 一. babel 概念
+* Babel 是一个 JavaScript 编译器, 是一个工具链，主要用于将采用 ECMAScript 2015+ 语法编写的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其他环境中.
+* babel-polyfill: babel本身只解析ES6的语法, 如箭头函数; 对于新的API, 如Promise, includes(), 本身符合ES5的语法规范, babel不会进行解析 babel-polyfill 通过补丁的方式实现的ES6+新的API解析, babel-polyfill 是 core-js 标准库和regenerator库的集合. babel 7.4之后弃用 balel-polyfill, 推荐直接使用core.js 和 regenerator.
+* babel-polyfill 的问题: 污染全局环境.
+

@@ -1,0 +1,77 @@
+---
+layout: post
+title: Vue3新旅程初探
+date: 2019-04-18 11:11:11.000000000 +09:00
+categories: Vue3新旅程初探
+tags:  Vue3新旅程初探
+---
+
+**关键点**
+### 一. Vue3 优势点
+* 性能更好
+* 体积更小
+* 更好 ts 支持
+* 更好的代码组织
+* 更好的逻辑抽离
+* 更多新功能
+
+### 二. 生命周期的变化
+1. options api
+beforeDestoryed, destoryed 更名 beforeUnMounted, unMounted
+
+2. composition api
+setup 整合 beforeCreate, created; 
+onBeforeMount, onMounted;
+onBeforeUpdate, onUpdated;
+onBeforeUnMounted, onUnMounted;
+
+
+### 三. 理解 ref, toRef, toRefs
+1. ref
+使值类型具有响应式
+
+2. toRef, toRefs
+针对一个响应式对象(reactive封装)的prop; 创建一个 ref, 具有响应式; 两者保持引用关系;
+
+```impport { ref, toRef, toRefs, reactive } from 'vue'
+const state = reactive({ age: 20, name: 'ylz' });
+const ageRef = toRef(state, 'age');
+const stateRefs = toRefs(state);
+return { ...stateRefs }
+```
+
+3. 最佳使用方式
+	* 用 reactive 做对象的响应式, 用 ref 做值类型响应式
+	* setup 中返回 toRefs(state), 或者 toRef(state, 'xxx')
+	* ref 的变量命名用 xxxRef
+	* 合成函数返回响应式对象时, 使用 toRefs
+
+### 四. vue3 升级的重要功能
+1. createApp
+2. emits 属性
+3. 生命周期
+4. 多事件
+5. Fragment
+6. 移除 .sync
+使用 v-model:xxx 双向更新的语法糖
+7. 异步组件新写法
+8. 移除 filter
+9. Teleport
+10. Suspense
+11. Composition API
+
+### 五. watch, watchEffect
+1. 两者都可监听 data 属性变化, watch 需要明确监听哪个属性, watchEffect 会根据其中属性, 自动监听变化, watchEffect 首次会自定执行一次, 目的是进行监听收集.
+
+### vue3 实现响应式
+vue3 通过 Proxy 实现响应式, Proxy 能规避 Object.defineProperty 的问题, 深度监听, 性能更好. 可监听 新增/删除 属性, 可监听数组变化.
+
+### vue3 对比 vue2 速度优化
+1. Proxy响应式
+2. PatchFlag:
+编译模板时, 动态节点做标记, 则 diff 算法时, 可以区分静态节点, 以及不同类型的动态节点.
+3. hoisStatic, 将静态节点的定义, 提升到父作用域, 缓存起来; 多个相邻的静态节点, 会被合并起来; 典型空间换时间优化策略.
+4. cacheHandler
+5. SSR优化
+6. tree-shaking, 动态 import
+
