@@ -1,0 +1,21 @@
+---
+layout: post
+title: NPM 指令操作
+date: 2022-05-06 11:11:11.000000000 +09:00
+categories: NPM 指令操作
+tags:  NPM 指令操作
+---
+
+**关键点**
+
+### 一. NMP LINK
+
+1.  进入项目通过 npm config  get  prefix 查看全局链接地址
+
+2. npm link 在指定项目生成一个全局 nodejs node_modules下生成对应名字的软链接
+
+3. 在在他项目 npm link <软链接名> 引入本地项目测试
+
+4. npm unlink <软链接名> 接触 link
+
+
