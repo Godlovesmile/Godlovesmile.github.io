@@ -1,0 +1,17 @@
+---
+layout: post
+title: 小技巧
+date: 2022-05-06 11:11:11.000000000 +09:00
+categories: 小技巧
+tags:  小技巧
+---
+
+**关键点**
+
+### 一. vscode
+
+1.  VS Code 新增一个“粘性滚动”的设置：editor.experimental.stickyScroll.enabled
+   
+   当前代码块的第一行，可以始终保持在编辑器顶部
+
+
