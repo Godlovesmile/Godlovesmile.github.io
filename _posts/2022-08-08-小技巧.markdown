@@ -18,4 +18,7 @@ tags:  小技巧
    
     快捷键打开所有 ctrl + k + j
 
+3. 运行 npm script run 插件 (NPM-scripts)
+装完之后, 一开始插件默认是 auto, 在 vscode setting 中搜索 Package Manager 进行设置
+
 
