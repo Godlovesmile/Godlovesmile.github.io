@@ -10,15 +10,23 @@ tags:  小技巧
 
 ### 一. vscode
 
-1.  VS Code 新增一个“粘性滚动”的设置：editor.experimental.stickyScroll.enabled
+1. VS Code 新增一个“粘性滚动”的设置：editor.experimental.stickyScroll.enabled
    
    当前代码块的第一行，可以始终保持在编辑器顶部
 
-2.  快捷键折叠所有 ctrl + k + 0
+2. 快捷键折叠所有 ctrl + k + 0
    
-    快捷键打开所有 ctrl + k + j
+   快捷键打开所有 ctrl + k + j
 
 3. 运行 npm script run 插件 (NPM-scripts)
-装完之后, 一开始插件默认是 auto, 在 vscode setting 中搜索 Package Manager 进行设置
+   装完之后, 一开始插件默认是 auto, 在 vscode setting 中搜索 Package Manager 进行设置
+   
+   ### 
+
+### 二. npm
+
+1.  *--legacy-peer-deps*标志是在*v7*中引入的，目的是绕过**peerDependency**自动安装；它告诉 NPM 忽略项目中引入的各个**modules**之间的相同**modules**但不同版本的问题并继续安装，保证各个引入的依赖之间对自身所使用的不同版本**modules**共存 .
+   
+   npm i xxx --legacy-peer-deps
 
 
